@@ -1,12 +1,12 @@
 # Assignment 1:
-## AWS Lambda Function Automation for EC2 Instance Start/Stop
-Project Overview
+AWS Lambda Automation for EC2 Instance Start/Stop
+📌 Project Overview
 
 This project demonstrates how to automatically start and stop Amazon EC2 instances based on tags using an AWS Lambda function written in Python with the Boto3 SDK.
 
 The automation helps organizations optimize cloud costs and simplify infrastructure management by automatically managing EC2 instance states based on predefined tags.
 
-Objective
+🎯 Objective
 
 Create a serverless automation system that:
 
@@ -16,7 +16,7 @@ Starts EC2 instances tagged Auto-Start
 
 Logs actions to CloudWatch for monitoring and auditing
 
-Architecture
+🏗️ Architecture
 Manual Trigger / EventBridge Schedule
               │
               ▼
@@ -33,8 +33,7 @@ Manual Trigger / EventBridge Schedule
  Stop Instances   Start Instances
        │             │
        └──────► CloudWatch Logs
-
-# Technologies Used
+🧰 Technologies Used
 
 AWS Lambda
 
@@ -48,7 +47,7 @@ AWS IAM
 
 Amazon CloudWatch
 
-# Prerequisites
+⚙️ Prerequisites
 
 Before implementing this project, ensure you have:
 
@@ -60,7 +59,7 @@ Basic knowledge of Python
 
 Basic understanding of AWS services
 
-# Implementation Steps
+🚀 Implementation Steps
 Step 1: Create EC2 Instances
 
 Create two EC2 instances.
@@ -114,7 +113,7 @@ Execution Role: LambdaEC2ManagerRole
 
 Deploy the Python script that performs EC2 automation.
 
-How the Automation Works
+🧠 How the Automation Works
 
 The Lambda function performs the following operations:
 
@@ -130,7 +129,7 @@ Starts those instances.
 
 Logs actions in CloudWatch Logs.
 
-# Testing the Solution
+🧪 Testing the Solution
 
 Open the Lambda console.
 
@@ -140,17 +139,18 @@ Create a test event.
 
 Example event:
 
+{}
 
 Run the test.
 
-Verify Results
+🔍 Verify Results
 
 Open the EC2 dashboard and verify instance states.
 
 Instance	Expected Result
 auto-stop-instance	Stopped
 auto-start-instance	Running
-Logging and Monitoring
+📊 Logging and Monitoring
 
 Logs are automatically stored in CloudWatch.
 
@@ -162,8 +162,7 @@ Example log output:
 
 Stopping instances: ['i-1234567890']
 Starting instances: ['i-0987654321']
-
-# Optional Automation with Scheduler
+⏰ Optional Automation with Scheduler
 
 You can automate execution using scheduled triggers.
 
@@ -174,7 +173,7 @@ Stop instances: 7:00 PM
 
 This helps automatically manage development environments and reduce costs.
 
-# Security Best Practices
+🔐 Security Best Practices
 
 For production environments:
 
@@ -186,7 +185,7 @@ Enable CloudTrail auditing
 
 Restrict access to specific instances if possible
 
-# Cost Optimization Benefits
+💰 Cost Optimization Benefits
 
 This automation helps:
 
@@ -199,7 +198,7 @@ Automate infrastructure management
 Typical savings:
 
 30% – 60% EC2 cost reduction
-Learning Outcomes
+🎓 Learning Outcomes
 
 By completing this project, you learn:
 
@@ -215,7 +214,7 @@ Monitoring using CloudWatch
 
 Cloud cost optimization techniques
 
-# Future Enhancements
+📌 Future Enhancements
 
 Possible improvements:
 
@@ -230,5 +229,5 @@ Implement infrastructure using Terraform
 Create automated dashboards for monitoring
 
 👨‍💻 Author
-Santosh Kumar Sharma
+
 Cloud / DevOps Automation Project
