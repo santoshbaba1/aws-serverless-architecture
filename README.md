@@ -223,7 +223,7 @@
         Go to Lambda → Create Function
 
         Choose:
-            Function Name: Auto-Tag
+            Function Name: EC2-Auto-Tag
             Runtime: Python 3.x
             Execution Role: LambdaEC2AutoTagRole
             Click Create Function
