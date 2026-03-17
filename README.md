@@ -215,7 +215,7 @@
         Attach policy:
             AmazonEC2FullAccess
         Role name:
-            Lambda-EC2-AutoTag-Role
+            LambdaEC2AutoTagRole
             Create role
 <img width="1309" height="678" alt="lambda auto tag" src="https://github.com/user-attachments/assets/3ebb6a49-761a-410e-b7c7-f1731d6e419e" />
 
@@ -225,7 +225,7 @@
         Choose:
             Function Name: Auto-Tag
             Runtime: Python 3.x
-            Execution Role: Lambda-EC2-AutoTag-Role
+            Execution Role: LambdaEC2AutoTagRole
             Click Create Function
 <img width="1318" height="670" alt="lambda auto tag 2" src="https://github.com/user-attachments/assets/2f747ce5-413e-48d7-a246-e15ea166a416" />
 
