@@ -66,7 +66,56 @@
         Execution Role: my-lambda-role
 
 # Deploy the Python script that performs EC2 automation.
-    How the Automation Works
+        import boto3
+        
+        def lambda_handler(event, context):
+            
+            ec2 = boto3.client('ec2')
+            
+            # Find Auto-Stop instances
+            stop_instances = ec2.describe_instances(
+                Filters=[
+                    {'Name': 'tag:Action', 'Values': ['Auto-Stop']},
+                    {'Name': 'instance-state-name', 'Values': ['running']}
+                ]
+            )
+            
+            stop_ids = []
+            
+            for reservation in stop_instances['Reservations']:
+                for instance in reservation['Instances']:
+                    stop_ids.append(instance['InstanceId'])
+            
+            if stop_ids:
+                ec2.stop_instances(InstanceIds=stop_ids)
+                print("Stopped instances:", stop_ids)
+            
+            
+            # Find Auto-Start instances
+            start_instances = ec2.describe_instances(
+                Filters=[
+                    {'Name': 'tag:Action', 'Values': ['Auto-Start']},
+                    {'Name': 'instance-state-name', 'Values': ['stopped']}
+                ]
+            )
+            
+            start_ids = []
+            
+            for reservation in start_instances['Reservations']:
+                for instance in reservation['Instances']:
+                    start_ids.append(instance['InstanceId'])
+            
+            if start_ids:
+                ec2.start_instances(InstanceIds=start_ids)
+                print("Started instances:", start_ids)
+            
+            
+            return {
+                'statusCode': 200,
+                'body': 'EC2 automation completed'
+            }
+
+#  How the Automation Works
     
     The Lambda function performs the following operations:
     Connects to EC2 using Boto3.
@@ -83,6 +132,7 @@
     2-Click Test.
     3-Create a test event.
     4-Run the test.
+<img width="1317" height="719" alt="auto-mation-status" src="https://github.com/user-attachments/assets/0912b1ac-ce4b-44f2-b635-8edd1d577ce9" />
 
 # Results Verify 
     Open the EC2 dashboard and verify instance states.
@@ -94,11 +144,11 @@
     Logs are automatically stored in CloudWatch.
     Location:
         CloudWatch → Log Groups → /aws/lambda/Auto-Manager
+<img width="1314" height="720" alt="log 11" src="https://github.com/user-attachments/assets/9e35763b-316c-4b9a-a18d-57809bcaab60" />
 
     log output:
         Stopping instances: ['i-04c3e18ac5480ab34']
         Starting instances: ['i-001dddadfbeb1ff35']
-<img width="1317" height="719" alt="auto-mation-status" src="https://github.com/user-attachments/assets/0912b1ac-ce4b-44f2-b635-8edd1d577ce9" />
 
 # Learning Outcomes
     By completing this project, I learnt.
