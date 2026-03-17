@@ -1,23 +1,16 @@
 # Assignment 1:
-AWS Lambda Automation for EC2 Instance Start/Stop
-📌 Project Overview
+## AWS Lambda Automation for EC2 Instance Start/Stop
+    Project Overview
+    This project demonstrates how to automatically start and stop Amazon EC2 instances based on tags using an AWS Lambda function written in Python with the Boto3 SDK.
+    The automation helps organizations optimize cloud costs and simplify infrastructure management by automatically managing EC2 instance states based on predefined tags.
 
-This project demonstrates how to automatically start and stop Amazon EC2 instances based on tags using an AWS Lambda function written in Python with the Boto3 SDK.
+# Objective
+    Create a serverless automation system that:
+    Stops EC2 instances tagged Auto-Stop, Starts EC2 instances tagged Auto-Start
+    Logs actions to CloudWatch for monitoring and auditing
 
-The automation helps organizations optimize cloud costs and simplify infrastructure management by automatically managing EC2 instance states based on predefined tags.
-
-🎯 Objective
-
-Create a serverless automation system that:
-
-Stops EC2 instances tagged Auto-Stop
-
-Starts EC2 instances tagged Auto-Start
-
-Logs actions to CloudWatch for monitoring and auditing
-
-🏗️ Architecture
-Manual Trigger / EventBridge Schedule
+# Architecture
+    Manual Trigger / EventBridge Schedule
               │
               ▼
          AWS Lambda
@@ -30,82 +23,45 @@ Manual Trigger / EventBridge Schedule
      Detect Instance Tags
        │             │
        ▼             ▼
- Stop Instances   Start Instances
+     Stop Instances   Start Instances
        │             │
        └──────► CloudWatch Logs
-🧰 Technologies Used
 
-AWS Lambda
+# Technologies Used
+      AWS Lambda
+      Amazon EC2
+      Python
+      Boto3 (AWS SDK for Python)
+      AWS IAM
+      Amazon CloudWatch
 
-Amazon EC2
+# Implementation Steps
+    Step 1: Create EC2 Instances
+      Create two EC2 instances.
+    Instance 1
+      Name:auto-stop
+    # Tags:
+      Name: Action
+      Value: Auto-Stop
+    Instance 2
+      Name:auto-start
+    # Tags:
+      Name: Action
+      Value: Auto-Start
+    Instance type : t4g.micro
+    
+    Step 2: Create IAM Role for Lambda
+      Create an IAM role with permissions to manage EC2 instances.
 
-Python
+    Recommended permissions:
+      AmazonEC2FullAccess
+      CloudWatchFullAccess
+    Attach the role to the Lambda function.
+    Example role name:my-lambda-role
 
-Boto3 (AWS SDK for Python)
+    Step 3: Create Lambda Function
 
-AWS IAM
-
-Amazon CloudWatch
-
-⚙️ Prerequisites
-
-Before implementing this project, ensure you have:
-
-An AWS account
-
-Permission to create Lambda functions and EC2 instances
-
-Basic knowledge of Python
-
-Basic understanding of AWS services
-
-🚀 Implementation Steps
-Step 1: Create EC2 Instances
-
-Create two EC2 instances.
-
-Instance 1
-
-Name:
-
-auto-stop-instance
-
-Tags:
-
-Key: Action
-Value: Auto-Stop
-Instance 2
-
-Name:
-
-auto-start-instance
-
-Tags:
-
-Key: Action
-Value: Auto-Start
-
-Instance type can be:
-
-t2.micro
-Step 2: Create IAM Role for Lambda
-
-Create an IAM role with permissions to manage EC2 instances.
-
-Recommended permissions:
-
-ec2:DescribeInstances
-ec2:StartInstances
-ec2:StopInstances
-
-Attach the role to the Lambda function.
-
-Example role name:
-
-LambdaEC2ManagerRole
-Step 3: Create Lambda Function
-
-Configuration:
+    Configuration:
 
 Function Name: EC2-Auto-Manager
 Runtime: Python 3.x
