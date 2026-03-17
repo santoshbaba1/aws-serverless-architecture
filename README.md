@@ -96,16 +96,17 @@
         CloudWatch → Log Groups → /aws/lambda/Auto-Manager
 
     log output:
-        Stopping instances: ['i-1234567890']
-        Starting instances: ['i-0987654321']
-        
+        Stopping instances: ['i-04c3e18ac5480ab34']
+        Starting instances: ['i-001dddadfbeb1ff35']
+<img width="1317" height="719" alt="auto-mation-status" src="https://github.com/user-attachments/assets/0912b1ac-ce4b-44f2-b635-8edd1d577ce9" />
+
 # Learning Outcomes
     By completing this project, I learnt.
-    1-Serverless automation with AWS Lambda
-    2-Managing AWS resources using Boto3
-    3-EC2 tagging strategies
-    4-IAM role configuration
-    5-Monitoring using CloudWatch
+        1-Serverless automation with AWS Lambda
+        2-Managing AWS resources using Boto3
+        3-EC2 tagging strategies
+        4-IAM role configuration
+        5-Monitoring using CloudWatch
 
 **************************************************************
 # Assignment 5:
