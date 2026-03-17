@@ -49,9 +49,11 @@
       Name: Action
       Value: Auto-Start
     Instance type : t4g.micro
-    
+    <img width="1311" height="709" alt="ec2 instance 2" src="https://github.com/user-attachments/assets/ec64101b-9022-4612-88a2-68f10bce3e60" />
+
     Step 2: Create IAM Role for Lambda
       Create an IAM role with permissions to manage EC2 instances.
+<img width="1306" height="617" alt="lambda role" src="https://github.com/user-attachments/assets/66db46e9-7330-4f4b-9b28-8c330c8bbf74" />
 
     Recommended permissions:
       AmazonEC2FullAccess
