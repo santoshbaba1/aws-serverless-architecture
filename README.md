@@ -17,7 +17,6 @@
       (Python + Boto3)
               │
               ▼
-        EC2 Describe API
               │
               ▼
      Detect Instance Tags
