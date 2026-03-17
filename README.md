@@ -60,130 +60,52 @@
     Example role name:my-lambda-role
 
     Step 3: Create Lambda Function
+      Configuration:
+        Function Name : Auto-Manager
+        Runtime       : Python 3.x
+        Execution Role: my-lambda-role
 
-    Configuration:
+# Deploy the Python script that performs EC2 automation.
+    How the Automation Works
+    
+    The Lambda function performs the following operations:
+    Connects to EC2 using Boto3.
+    
+    Searches for instances tagged Action=Auto-Stop that are currently running.
+    Stops those instances.
 
-Function Name: EC2-Auto-Manager
-Runtime: Python 3.x
-Execution Role: LambdaEC2ManagerRole
+    Searches for instances tagged Action=Auto-Start that are currently stopped.
+    Starts those instances.
 
-Deploy the Python script that performs EC2 automation.
+# Logs actions in CloudWatch Logs.
+    Testing the Solution
+    1-Open the Lambda console.
+    2-Click Test.
+    3-Create a test event.
+    4-Run the test.
 
-🧠 How the Automation Works
+# Results Verify 
+    Open the EC2 dashboard and verify instance states.
+    Instance	        Expected Result
+    auto-stop-instance	Stopped
+    auto-start-instance	Running
 
-The Lambda function performs the following operations:
+# Logging and Monitoring
+    Logs are automatically stored in CloudWatch.
+    Location:
+        CloudWatch → Log Groups → /aws/lambda/Auto-Manager
 
-Connects to EC2 using Boto3.
-
-Searches for instances tagged Action=Auto-Stop that are currently running.
-
-Stops those instances.
-
-Searches for instances tagged Action=Auto-Start that are currently stopped.
-
-Starts those instances.
-
-Logs actions in CloudWatch Logs.
-
-🧪 Testing the Solution
-
-Open the Lambda console.
-
-Click Test.
-
-Create a test event.
-
-Example event:
-
-{}
-
-Run the test.
-
-🔍 Verify Results
-
-Open the EC2 dashboard and verify instance states.
-
-Instance	Expected Result
-auto-stop-instance	Stopped
-auto-start-instance	Running
-📊 Logging and Monitoring
-
-Logs are automatically stored in CloudWatch.
-
-Location:
-
-CloudWatch → Log Groups → /aws/lambda/EC2-Auto-Manager
-
-Example log output:
-
-Stopping instances: ['i-1234567890']
-Starting instances: ['i-0987654321']
-⏰ Optional Automation with Scheduler
-
-You can automate execution using scheduled triggers.
-
-Example schedule:
-
-Start instances: 8:00 AM
-Stop instances: 7:00 PM
-
-This helps automatically manage development environments and reduce costs.
-
-🔐 Security Best Practices
-
-For production environments:
-
-Use least privilege IAM policies
-
-Avoid full EC2 access permissions
-
-Enable CloudTrail auditing
-
-Restrict access to specific instances if possible
-
-💰 Cost Optimization Benefits
-
-This automation helps:
-
-Stop unused development instances
-
-Reduce EC2 operational costs
-
-Automate infrastructure management
-
-Typical savings:
-
-30% – 60% EC2 cost reduction
-🎓 Learning Outcomes
-
-By completing this project, you learn:
-
-Serverless automation with AWS Lambda
-
-Managing AWS resources using Boto3
-
-EC2 tagging strategies
-
-IAM role configuration
-
-Monitoring using CloudWatch
-
-Cloud cost optimization techniques
-
-📌 Future Enhancements
-
-Possible improvements:
-
-Add multi-region support
-
-Add Slack or email notifications
-
-Manage additional services (RDS, ECS)
-
-Implement infrastructure using Terraform
-
-Create automated dashboards for monitoring
-
+    log output:
+        Stopping instances: ['i-1234567890']
+        Starting instances: ['i-0987654321']
+        
+# Learning Outcomes
+    By completing this project, I learnt.
+    1-Serverless automation with AWS Lambda
+    2-Managing AWS resources using Boto3
+    3-EC2 tagging strategies
+    4-IAM role configuration
+    5-Monitoring using CloudWatch
 
 **************************************************************
 # Assignment 5:
