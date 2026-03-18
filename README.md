@@ -807,7 +807,7 @@ Automate alerting and response
         (Optional) EventBridge Trigger
 
 # Deployment
-## Prerequisite (VERY IMPORTANT)
+## Prerequisite
     Must have:
     ✔ Existing EC2 instance
     ✔ Snapshots created 
@@ -821,6 +821,7 @@ Automate alerting and response
         AmazonEC2FullAccess
     Role:
         Name: Lambda-EC2-Restore-Role
+<img width="1318" height="675" alt="as17-iam role" src="https://github.com/user-attachments/assets/c67f4bf3-eb71-4842-9ee1-5b9b70adfdbb" />
 
 # Create Lambda Function
     Go to:
@@ -830,6 +831,7 @@ Automate alerting and response
     Name	        EC2-Restore-From-Snapshot
     Runtime	        Python 3.x
     Role	        Lambda-EC2-Restore-Role
+<img width="1316" height="659" alt="as17-lambda-funj" src="https://github.com/user-attachments/assets/ab6a6cd0-02d4-449c-89a9-789015042168" />
 
 # Lambda Code (Core Logic)
             import boto3
@@ -877,10 +879,16 @@ Automate alerting and response
     Manual Test
         Click:
         Lambda → Test
+<img width="1310" height="669" alt="as17-ec2-restore" src="https://github.com/user-attachments/assets/0b178519-b4b6-4098-95fc-650b89a53d65" />
+<img width="1310" height="669" alt="as17-ec2-restore-1" src="https://github.com/user-attachments/assets/6e67f72c-136b-45c5-80b0-ece7beb2a2cc" />
+
 # Logs:
 
     Latest snapshot: snap-12345
     New EC2 instance launched: i-12345
+<img width="1316" height="667" alt="as17-launch-ec2-inst" src="https://github.com/user-attachments/assets/fcd7db9f-17e0-4984-a733-6bd7b4cefed5" />
+
+<img width="1314" height="663" alt="as17-log" src="https://github.com/user-attachments/assets/9e188509-99dc-4340-9a63-033640bb75c7" />
 
 # Real Use Cases
     Disaster recovery
