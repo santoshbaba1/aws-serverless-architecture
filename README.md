@@ -549,8 +549,9 @@ This project demonstrates a real-world DevOps automation pattern used in enterpr
 
 # Conclusion
     This project demonstrates a real-world monitoring solution widely used in DevOps environments to track infrastructure changes and respond proactively to system events.
+*******************************************************************************************************************************************************
 
-Assignment 16: Automated SNS Alerts for EC2 Disk Space Utilization
+# Assignment 16: Automated SNS Alerts for EC2 Disk Space Utilization
 🎯 Objective
 
 Build an automated monitoring system that:
