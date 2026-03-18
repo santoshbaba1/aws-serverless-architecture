@@ -775,6 +775,247 @@ Improve system uptime
 
 Automate alerting and response
 
+***********************************************************************************************************************************************
+# Assignment 17: Restore EC2 Instance from Snapshot
+
+    This is a classic disaster recovery automation used in DevOps.
+    use:
+        Amazon EC2
+        AWS Lambda
+        Amazon EventBridge
+        Boto3
+
+# Objective
+    Automatically:
+
+        Find latest snapshot
+                ↓
+        Create volume
+                ↓
+        Launch new EC2 instance
+
+# Architecture
+        EBS Snapshots
+              │
+              ▼
+        Lambda Function
+              │
+              ▼
+        New EC2 Instance Created
+              │
+              ▼
+        (Optional) EventBridge Trigger
+
+# Deployment
+## Prerequisite (VERY IMPORTANT)
+    Must have:
+    ✔ Existing EC2 instance
+    ✔ Snapshots created 
+    Check:
+        EC2 → Elastic Block Store → Snapshots
+
+# Create IAM Role for Lambda
+    Go to:
+    IAM → Roles → Create Role
+        Attach policies:
+        AmazonEC2FullAccess
+    Role:
+        Name: Lambda-EC2-Restore-Role
+
+# Create Lambda Function
+    Go to:
+    Lambda → Create Function
+    Settings:
+    Field	        Value
+    Name	        EC2-Restore-From-Snapshot
+    Runtime	        Python 3.x
+    Role	        Lambda-EC2-Restore-Role
+
+# Lambda Code (Core Logic)
+            import boto3
+            
+            ec2 = boto3.client('ec2')
+            
+            def lambda_handler(event, context):
+            
+                # Get latest AMI
+                images = ec2.describe_images(Owners=['self'])['Images']
+            
+                latest_image = sorted(
+                    images,
+                    key=lambda x: x['CreationDate'],
+                    reverse=True
+                )[0]
+            
+                image_id = latest_image['ImageId']
+            
+                print(f"Latest AMI: {image_id}")
+            
+                # Launch instance
+                instance = ec2.run_instances(
+                ImageId='ami-0d9ee65a2a86e323b',
+                InstanceType='t4g.micro',
+                MinCount=1,
+                MaxCount=1,
+            
+                #  REQUIRED FIX
+                NetworkInterfaces=[
+                    {
+                        'SubnetId': 'subnet-05fd5e23acdd5b9e8',
+                        'DeviceIndex': 0,
+                        'AssociatePublicIpAddress': True,
+                        'Groups': ['sg-0328dc2b2e1069b9b']
+                    }
+                    ]
+                )
+            
+                instance_id = instance['Instances'][0]['InstanceId']
+            
+                print(f"Instance created: {instance_id}")
+⚠️ IMPORTANT (Real DevOps Knowledge)
+
+👉 Snapshot contains data, NOT full instance config
+
+So you MUST specify:
+
+AMI
+
+Instance type
+
+AZ
+
+✅ Better Approach (Production)
+
+Instead of just snapshot:
+
+👉 Use:
+
+AMI (Amazon Machine Image)
+
+Because AMI = snapshot + configuration
+
+🔥 Recommended Production Code (AMI Based)
+import boto3
+
+ec2 = boto3.client('ec2')
+
+def lambda_handler(event, context):
+
+    # Get latest AMI
+    images = ec2.describe_images(Owners=['self'])['Images']
+
+    latest_image = sorted(
+        images,
+        key=lambda x: x['CreationDate'],
+        reverse=True
+    )[0]
+
+    image_id = latest_image['ImageId']
+
+    print(f"Latest AMI: {image_id}")
+
+    # Launch instance
+    instance = ec2.run_instances(
+        ImageId=image_id,
+        InstanceType='t2.micro',
+        MinCount=1,
+        MaxCount=1
+    )
+
+    instance_id = instance['Instances'][0]['InstanceId']
+
+    print(f"Instance created: {instance_id}")
+5️⃣ Testing
+Manual Test
+
+Click:
+
+Lambda → Test
+
+Event:
+
+{}
+6️⃣ Optional: Automate with EventBridge
+
+Go to:
+
+👉 EventBridge → Scheduler
+
+Example:
+
+rate(1 day)
+🧪 Expected Output
+
+Logs:
+
+Latest snapshot: snap-12345
+Created volume: vol-12345
+New EC2 instance launched: i-12345
+⚠️ Common Errors
+❌ No snapshots found
+
+✔ Fix:
+
+Ensure snapshots exist
+
+Check region
+
+❌ Volume stuck
+
+✔ Fix:
+
+AZ mismatch
+
+Snapshot region mismatch
+
+❌ Instance not working
+
+✔ Reason:
+
+Snapshot missing OS config
+
+Wrong AMI
+
+🔐 Best Practices
+
+Filter snapshots by tag:
+
+Filters=[
+  {'Name': 'tag:Backup', 'Values': ['true']}
+]
+
+Use IAM least privilege
+
+Use AMI instead of raw snapshot
+
+💡 Real Use Cases
+
+Disaster recovery
+
+Backup restore
+
+Auto failover
+
+Testing environments
+
+🎯 Final Flow
+Snapshot → Volume → EC2 Instance
+
+OR (Better)
+
+AMI → EC2 Instance
+🎓 What You Learned
+
+Snapshot vs AMI difference
+
+Lambda automation
+
+EC2 provisioning via Boto3
+
+Disaster recovery design
+
+***********************************************************************************************************************************************
+
 # Author
 
 Santosh Kumar Sharma (12394)-Batch-15
