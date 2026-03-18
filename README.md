@@ -508,9 +508,10 @@ This project demonstrates a real-world DevOps automation pattern used in enterpr
     EC2 Instance State Change Alert
 <img width="1360" height="765" alt="email notification send" src="https://github.com/user-attachments/assets/2dc55ab3-a64c-4f8e-bf51-fd1ca7d92a1c" />
 
-    Instance ID: i-1234567890
+    Instance ID: i-0261684ad88a59637
     New State: running
 <img width="1362" height="767" alt="change state notigication" src="https://github.com/user-attachments/assets/4c9646db-3417-4366-833a-e2d60c98d667" />
+<img width="1354" height="677" alt="ec2-state email alert" src="https://github.com/user-attachments/assets/26f4b787-512a-442a-837f-26d936fc87af" />
 
 # Monitoring & Logs
     Go to:
