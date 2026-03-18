@@ -872,147 +872,30 @@ Automate alerting and response
                 instance_id = instance['Instances'][0]['InstanceId']
             
                 print(f"Instance created: {instance_id}")
-⚠️ IMPORTANT (Real DevOps Knowledge)
 
-👉 Snapshot contains data, NOT full instance config
+# Testing
+    Manual Test
+        Click:
+        Lambda → Test
+# Logs:
 
-So you MUST specify:
+    Latest snapshot: snap-12345
+    New EC2 instance launched: i-12345
 
-AMI
+# Real Use Cases
+    Disaster recovery
+    Backup restore
+    Auto failover
+    Testing environments
 
-Instance type
+# Final Flow
+    Snapshot → EC2 Instance
 
-AZ
-
-✅ Better Approach (Production)
-
-Instead of just snapshot:
-
-👉 Use:
-
-AMI (Amazon Machine Image)
-
-Because AMI = snapshot + configuration
-
-🔥 Recommended Production Code (AMI Based)
-import boto3
-
-ec2 = boto3.client('ec2')
-
-def lambda_handler(event, context):
-
-    # Get latest AMI
-    images = ec2.describe_images(Owners=['self'])['Images']
-
-    latest_image = sorted(
-        images,
-        key=lambda x: x['CreationDate'],
-        reverse=True
-    )[0]
-
-    image_id = latest_image['ImageId']
-
-    print(f"Latest AMI: {image_id}")
-
-    # Launch instance
-    instance = ec2.run_instances(
-        ImageId=image_id,
-        InstanceType='t2.micro',
-        MinCount=1,
-        MaxCount=1
-    )
-
-    instance_id = instance['Instances'][0]['InstanceId']
-
-    print(f"Instance created: {instance_id}")
-5️⃣ Testing
-Manual Test
-
-Click:
-
-Lambda → Test
-
-Event:
-
-{}
-6️⃣ Optional: Automate with EventBridge
-
-Go to:
-
-👉 EventBridge → Scheduler
-
-Example:
-
-rate(1 day)
-🧪 Expected Output
-
-Logs:
-
-Latest snapshot: snap-12345
-Created volume: vol-12345
-New EC2 instance launched: i-12345
-⚠️ Common Errors
-❌ No snapshots found
-
-✔ Fix:
-
-Ensure snapshots exist
-
-Check region
-
-❌ Volume stuck
-
-✔ Fix:
-
-AZ mismatch
-
-Snapshot region mismatch
-
-❌ Instance not working
-
-✔ Reason:
-
-Snapshot missing OS config
-
-Wrong AMI
-
-🔐 Best Practices
-
-Filter snapshots by tag:
-
-Filters=[
-  {'Name': 'tag:Backup', 'Values': ['true']}
-]
-
-Use IAM least privilege
-
-Use AMI instead of raw snapshot
-
-💡 Real Use Cases
-
-Disaster recovery
-
-Backup restore
-
-Auto failover
-
-Testing environments
-
-🎯 Final Flow
-Snapshot → Volume → EC2 Instance
-
-OR (Better)
-
-AMI → EC2 Instance
-🎓 What You Learned
-
-Snapshot vs AMI difference
-
-Lambda automation
-
-EC2 provisioning via Boto3
-
-Disaster recovery design
+# What You Learned
+    Snapshot vs AMI difference
+    Lambda automation
+    EC2 provisioning via Boto3
+    Disaster recovery design
 
 ***********************************************************************************************************************************************
 
