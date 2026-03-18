@@ -550,7 +550,229 @@ This project demonstrates a real-world DevOps automation pattern used in enterpr
 # Conclusion
     This project demonstrates a real-world monitoring solution widely used in DevOps environments to track infrastructure changes and respond proactively to system events.
 
+Assignment 16: Automated SNS Alerts for EC2 Disk Space Utilization
+🎯 Objective
 
+Build an automated monitoring system that:
+
+Checks EC2 disk usage
+
+Triggers alert if usage exceeds 85%
+
+Sends notification via SNS
+
+Runs automatically every day
+
+🏗️ Architecture
+EC2 Instance
+   ↓
+CloudWatch Agent (collect disk metrics)
+   ↓
+CloudWatch Metrics (CWAgent)
+   ↓
+Lambda Function (evaluate usage)
+   ↓
+SNS Topic (send alert)
+   ↓
+EventBridge (daily trigger)
+🧱 Prerequisites
+
+EC2 instance (Ubuntu 24 / ARM64)
+
+AWS CLI / Console access
+
+Email ID for alerts
+
+🚀 Step 1: Install CloudWatch Agent on EC2
+Install Agent
+wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/arm64/latest/amazon-cloudwatch-agent.deb
+sudo dpkg -i amazon-cloudwatch-agent.deb
+Attach IAM Role to EC2
+
+Attach policy:
+
+CloudWatchAgentServerPolicy
+Configure Agent
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
+
+Choose:
+
+Metrics collection → YES
+
+Disk metrics → YES
+
+Mount path → /
+
+Start Agent
+sudo systemctl start amazon-cloudwatch-agent
+sudo systemctl enable amazon-cloudwatch-agent
+🔍 Step 2: Verify Metrics
+
+Go to:
+
+CloudWatch → Metrics → All Metrics → CWAgent
+
+Check metric:
+
+disk_used_percent
+📨 Step 3: Create SNS Topic
+
+Open SNS → Create Topic
+
+Name: EC2-Disk-Alert
+
+Create Subscription:
+
+Protocol: Email
+
+Endpoint: your-email@gmail.com
+
+📩 Confirm subscription via email
+
+🔐 Step 4: Create IAM Role for Lambda
+
+Attach these policies:
+
+AmazonEC2ReadOnlyAccess
+CloudWatchReadOnlyAccess
+AmazonSNSFullAccess
+⚙️ Step 5: Create Lambda Function
+Configuration
+
+Name: EC2-Disk-Monitor
+
+Runtime: Python 3.x
+
+Role: IAM role created above
+
+Lambda Code
+import boto3
+from datetime import datetime, timedelta
+
+cloudwatch = boto3.client('cloudwatch')
+sns = boto3.client('sns')
+
+SNS_TOPIC_ARN = 'YOUR_SNS_TOPIC_ARN'
+THRESHOLD = 85
+
+def lambda_handler(event, context):
+
+    response = cloudwatch.get_metric_statistics(
+        Namespace='CWAgent',
+        MetricName='disk_used_percent',
+        Dimensions=[
+            {'Name': 'InstanceId', 'Value': 'YOUR_INSTANCE_ID'},
+            {'Name': 'path', 'Value': '/'},
+            {'Name': 'device', 'Value': 'nvme0n1p1'}
+        ],
+        StartTime=datetime.utcnow() - timedelta(minutes=10),
+        EndTime=datetime.utcnow(),
+        Period=300,
+        Statistics=['Average']
+    )
+
+    datapoints = response['Datapoints']
+
+    if not datapoints:
+        print("No data found")
+        return
+
+    latest = sorted(datapoints, key=lambda x: x['Timestamp'])[-1]
+    usage = latest['Average']
+
+    print(f"Disk usage: {usage}%")
+
+    if usage > THRESHOLD:
+        message = f"⚠️ EC2 Disk usage is {usage}%"
+
+        sns.publish(
+            TopicArn=SNS_TOPIC_ARN,
+            Subject="EC2 Disk Alert",
+            Message=message
+        )
+
+        print("Alert sent")
+⏰ Step 6: Create EventBridge Rule (Daily Trigger)
+
+Go to EventBridge → Rules → Create Rule
+
+Choose Schedule
+
+Option 1: Simple
+rate(1 day)
+Option 2: Specific Time (10 AM)
+cron(0 10 * * ? *)
+Target
+
+Select Lambda function: EC2-Disk-Monitor
+
+🧪 Step 7: Testing
+Manual Test
+
+Run Lambda with:
+
+{}
+Real Test (Simulate High Disk Usage)
+fallocate -l 6G testfile
+
+Wait 2–5 minutes → Trigger Lambda
+
+📩 Expected Output
+
+Email alert:
+
+Subject: EC2 Disk Alert
+Message: Disk usage is 90%
+⚠️ Troubleshooting
+CWAgent not visible
+systemctl status amazon-cloudwatch-agent
+No metrics data
+
+Check IAM role
+
+Verify agent config
+
+Restart agent
+
+No email received
+
+Confirm SNS subscription
+
+Check Lambda logs
+
+🔐 Best Practices
+
+Avoid hardcoding instance ID (use dynamic discovery)
+
+Use least privilege IAM roles
+
+Monitor multiple instances (advanced)
+
+Use CloudWatch Alarms as alternative
+
+🎓 Learning Outcome
+
+EC2 monitoring using CloudWatch Agent
+
+Custom metrics handling
+
+Lambda automation
+
+SNS alert integration
+
+Event-driven architecture
+
+🚀 Resume Line
+Implemented automated EC2 disk utilization monitoring using AWS Lambda, CloudWatch Agent, SNS, and EventBridge with threshold-based alerting.
+✅ Conclusion
+
+This project provides a production-ready monitoring solution that helps:
+
+Prevent disk failures
+
+Improve system uptime
+
+Automate alerting and response
 
 # Author
 
