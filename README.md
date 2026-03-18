@@ -450,7 +450,6 @@ This project demonstrates a real-world DevOps automation pattern used in enterpr
                     except KeyError:
                         print("Invalid event format")
                 
-👉 Replace YOUR_SNS_TOPIC_ARN with your actual ARN
 
 # Click Deploy
 
