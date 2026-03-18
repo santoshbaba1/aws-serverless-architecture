@@ -1,3 +1,8 @@
+⚙️ Prerequisites
+
+AWS Account
+IAM permissions to create Lambda, SNS, EC2, EventBridge
+
 # Assignment 1:
 ## AWS Lambda Automation for EC2 Instance Start/Stop
     Project Overview
@@ -344,290 +349,210 @@
 This project demonstrates a real-world DevOps automation pattern used in enterprises to ensure all resources are properly tagged for cost tracking, compliance, and operational efficiency.
 ************************************************************************************
 # Assignment 14:
-EC2 Instance State Monitoring using AWS Lambda, SNS & EventBridge
-📌 Project Overview
+## EC2 Instance State Monitoring using AWS Lambda, SNS & EventBridge
+    Project Overview
+    This project implements an event-driven monitoring system for EC2 instances.
+    Whenever an EC2 instance is started or stopped, a Lambda function is triggered automatically and sends a notification via SNS.
+# Objective
+    Monitor EC2 instance state changes (start/stop)
+    Send real-time notifications via email
+    Automate infrastructure monitoring using serverless architecture
 
-This project implements an event-driven monitoring system for EC2 instances.
-Whenever an EC2 instance is started or stopped, a Lambda function is triggered automatically and sends a notification via SNS.
+# Architecture
+        EC2 Instance (Start/Stop)
+                │
+                ▼
+        EventBridge Rule
+                │
+                ▼
+        AWS Lambda Function
+                │
+                ▼
+        SNS Topic
+                │
+                ▼
+        Email Notification
 
-🎯 Objective
+# Technologies Used
+    AWS Lambda
+    Amazon EC2
+    Amazon EventBridge
+    Amazon SNS
+    Boto3 (Python SDK)
+    AWS IAM
+    Amazon CloudWatch
+<img width="1316" height="717" alt="ec2-state-config-vm" src="https://github.com/user-attachments/assets/5bfd0115-09dd-4478-aa35-4b442644d028" />
 
-Monitor EC2 instance state changes (start/stop)
+# Deployment Steps
+    Step 1: Create SNS Topic
+    Go to SNS → Topics → Create Topic
+    Select:
+    Type: Standard
+    Name: ec2-state-alerts
+    
+    Create topic
+    Create Subscription:
+    Protocol: Email
+    santoshxxxxxx@gmail.com
+    Confirm subscription from your inbox
+ <img width="1310" height="719" alt="sns config" src="https://github.com/user-attachments/assets/8d5f4fba-e91b-4f7a-aa03-9531d91b5132" />
 
-Send real-time notifications via email
+    Step 2: Create IAM Role for Lambda
+    Go to IAM → Roles → Create Role
+    Select:
+    Trusted Entity: Lambda
+    Attach policies:
+        AmazonEC2ReadOnlyAccess
+        AmazonSNSFullAccess
+    Role name:
+        Lambda-EC2-Monitor-Role
 
-Automate infrastructure monitoring using serverless architecture
-
-🏗️ Architecture
-EC2 Instance (Start/Stop)
-        │
-        ▼
-EventBridge Rule
-        │
-        ▼
-AWS Lambda Function
-        │
-        ▼
-SNS Topic
-        │
-        ▼
-Email Notification
-🧰 Technologies Used
-
-AWS Lambda
-
-Amazon EC2
-
-Amazon EventBridge
-
-Amazon SNS
-
-Boto3 (Python SDK)
-
-AWS IAM
-
-Amazon CloudWatch
-
-⚙️ Prerequisites
-
-AWS Account
-
-IAM permissions to create Lambda, SNS, EC2, EventBridge
-
-Basic knowledge of AWS services
-
-🚀 Deployment Steps
-Step 1: Create SNS Topic
-
-Go to SNS → Topics → Create Topic
-
-Select:
-
-Type: Standard
-Name: ec2-state-alerts
-
-Create topic
-
-Create Subscription:
-
-Protocol: Email
-
-Enter your email
-
-Confirm subscription from your inbox
-
-Step 2: Create IAM Role for Lambda
-
-Go to IAM → Roles → Create Role
-
-Select:
-
-Trusted Entity: Lambda
-
-Attach policies:
-
-AmazonEC2ReadOnlyAccess
-AmazonSNSFullAccess
-
-Role name:
-
-Lambda-EC2-Monitor-Role
-Step 3: Create Lambda Function
-
-Go to Lambda → Create Function
-
-Configure:
-
-Function Name: EC2-State-Monitor
-Runtime: Python 3.x
-Execution Role: Lambda-EC2-Monitor-Role
-
-Click Create Function
-
-Step 4: Add Lambda Code
-import boto3
-import json
-
-sns = boto3.client('sns')
-
-SNS_TOPIC_ARN = "YOUR_SNS_TOPIC_ARN"
-
-def lambda_handler(event, context):
-
-    print("Received event:", json.dumps(event))
-
-    try:
-        instance_id = event['detail']['instance-id']
-        state = event['detail']['state']
-
-        message = f"""
-EC2 Instance State Change Alert
-
-Instance ID: {instance_id}
-New State: {state}
-"""
-
-        sns.publish(
-            TopicArn=SNS_TOPIC_ARN,
-            Subject="EC2 State Change Alert",
-            Message=message
-        )
-
-        print("Notification sent successfully")
-
-    except KeyError:
-        print("Invalid event format")
-
+    Step 3: Create Lambda Function
+        Go to Lambda → Create Function
+        Configure:
+            Function Name: EC2-State-Monitor
+            Runtime: Python 3.x
+            Execution Role: Lambda-EC2-Monitor-Role
+            Click Create Function
+ 
+    Step 4: Add Lambda Code
+                
+                import boto3
+                import json
+                
+                sns = boto3.client('sns')
+                
+                SNS_TOPIC_ARN = "arn:aws:sns:ap-south-1:251478238405:ec2-state-alerts"
+                
+                def lambda_handler(event, context):
+                
+                    print("Received event:", json.dumps(event))
+                
+                    try:
+                        instance_id = event['detail']['instance-id']
+                        state = event['detail']['state']
+                
+                        message = f"""
+                EC2 Instance State Change Alert
+                
+                Instance ID: {instance_id}
+                New State: {state}
+                """
+                
+                        sns.publish(
+                            TopicArn=SNS_TOPIC_ARN,
+                            Subject="EC2 State Change Alert",
+                            Message=message
+                        )
+                
+                        print("Notification sent successfully")
+                
+                    except KeyError:
+                        print("Invalid event format")
+                
 👉 Replace YOUR_SNS_TOPIC_ARN with your actual ARN
 
-Click Deploy
+# Click Deploy
 
-Step 5: Create EventBridge Rule
+    Step 5: Create EventBridge Rule
+        Go to EventBridge → Rules → Create Rule
+        Basic Configuration:
+        Rule Name: EC2-State-Change-Rule
+        Event Bus: default
+        Rule Type: Event pattern
+        Event Pattern:
 
-Go to EventBridge → Rules → Create Rule
+        Select:
+            Event Source: AWS services
+            Service: EC2
+            Event Type: EC2 Instance State-change Notification
+<img width="1320" height="723" alt="change state event config" src="https://github.com/user-attachments/assets/3286febc-22bb-4c4d-97a8-c93b363c5ffe" />
 
-Basic Configuration:
-Rule Name: EC2-State-Change-Rule
-Event Bus: default
-Rule Type: Event pattern
-Event Pattern:
+        Add filter:
+            State: running, stopped
+            JSON Pattern:
+                    {
+                      "source": ["aws.ec2"],
+                      "detail-type": ["EC2 Instance State-change Notification"],
+                      "detail": {
+                        "state": ["running", "stopped"]
+                      }
+                    }
 
-Select:
+    Step 6: Attach Target
+        Target Type : AWS Service
+        Service     : Lambda
+        Function    : EC2-State-Monitor
 
-Event Source: AWS services
-Service: EC2
-Event Type: EC2 Instance State-change Notification
+        Click Create Rule
 
-Add filter:
+# Testing
+    Test Method 1
+        Go to EC2 Dashboard
+        Select an instance
+        Click Start or Stop
 
-State: running, stopped
-JSON Pattern:
-{
-  "source": ["aws.ec2"],
-  "detail-type": ["EC2 Instance State-change Notification"],
-  "detail": {
-    "state": ["running", "stopped"]
-  }
-}
-Step 6: Attach Target
+    Test Method 2 (Manual Event)
+        Use this test event:
 
-Target Type: AWS Service
+            {
+              "detail": {
+                "instance-id": "i-1234567890",
+                "state": "running"
+              }
+            }
 
-Service: Lambda
+# Expected Output
+    Will receive an email:
+    Subject: EC2 State Change Alert
+    EC2 Instance State Change Alert
+<img width="1360" height="765" alt="email notification send" src="https://github.com/user-attachments/assets/2dc55ab3-a64c-4f8e-bf51-fd1ca7d92a1c" />
 
-Function: EC2-State-Monitor
+    Instance ID: i-1234567890
+    New State: running
+<img width="1362" height="767" alt="change state notigication" src="https://github.com/user-attachments/assets/4c9646db-3417-4366-833a-e2d60c98d667" />
 
-Click Create Rule
+# Monitoring & Logs
+    Go to:
+    CloudWatch → Log Groups → /aws/lambda/EC2-State-Monitor
 
-🧪 Testing
-Test Method 1 (Real-Time)
+    Logs:
+        Received event {...}
+        Notification sent successfully
+<img width="1353" height="767" alt="email notification" src="https://github.com/user-attachments/assets/39c2a777-e4fc-4c71-a190-4a59ac8dbd4b" />
 
-Go to EC2 Dashboard
+# Security Best Practices
+    Avoid using full access policies in production
+    Use least privilege:
+        sns:Publish
+        ec2:DescribeInstances
 
-Select an instance
+# Benefits
+    Real-time monitoring
+    Automated alerting
+    Improved system visibility
+    Reduced manual effort
 
-Click Start or Stop
+# Learning Outcomes
+    Event-driven AWS architecture
+    Lambda automation
+    SNS notifications
+    EventBridge rule configuration
+    Debugging event-based systems
 
-Test Method 2 (Manual Event)
+# Future Enhancements
+    Teams notifications
+    Auto-recovery actions (restart instances)
+    Multi-region monitoring
+    Infrastructure as Code
+    CloudWatch dashboards
 
-Use this test event:
-
-{
-  "detail": {
-    "instance-id": "i-1234567890",
-    "state": "running"
-  }
-}
-📧 Expected Output
-
-You will receive an email:
-
-Subject: EC2 State Change Alert
-
-EC2 Instance State Change Alert
-
-Instance ID: i-1234567890
-New State: running
-🔍 Monitoring & Logs
-
-Go to:
-
-CloudWatch → Log Groups → /aws/lambda/EC2-State-Monitor
-
-Logs example:
-
-Received event {...}
-Notification sent successfully
-⚠️ Common Issues & Fixes
-Issue: KeyError 'detail'
-
-Cause:
-
-Incorrect test event format
-
-Fix:
-
-Use proper EventBridge event structure
-
-Issue: No Email Received
-
-Cause:
-
-Subscription not confirmed
-
-Fix:
-
-Confirm email from SNS
-
-🔐 Security Best Practices
-
-Avoid using full access policies in production
-
-Use least privilege:
-
-sns:Publish
-ec2:DescribeInstances
-💰 Benefits
-
-Real-time monitoring
-
-Automated alerting
-
-Improved system visibility
-
-Reduced manual effort
-
-🎓 Learning Outcomes
-
-Event-driven AWS architecture
-
-Lambda automation
-
-SNS notifications
-
-EventBridge rule configuration
-
-Debugging event-based systems
-
-🚀 Future Enhancements
-
-Slack / Teams notifications
-
-Auto-recovery actions (restart instances)
-
-Multi-region monitoring
-
-Infrastructure as Code (Terraform)
-
-CloudWatch dashboards
-
-📌 Conclusion
-
-This project demonstrates a real-world monitoring solution widely used in DevOps environments to track infrastructure changes and respond proactively to system events.
+# Conclusion
+    This project demonstrates a real-world monitoring solution widely used in DevOps environments to track infrastructure changes and respond proactively to system events.
 
 
 
-👨‍💻 Author
+# Author
 
 Santosh Kumar Sharma (12394)-Batch-15
 
