@@ -899,7 +899,7 @@ Automate alerting and response
 # Final Flow
     Snapshot → EC2 Instance
 
-# What You Learned
+# What,I Learned
     Snapshot vs AMI difference
     Lambda automation
     EC2 provisioning via Boto3
