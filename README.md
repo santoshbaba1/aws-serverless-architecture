@@ -4,6 +4,7 @@ AWS Account
 IAM permissions to create Lambda, SNS, EC2, EventBridge
 
 # ✅ Assignment 1:
+
 ## AWS Lambda Automation for EC2 Instance Start/Stop
     Project Overview
     This project demonstrates how to automatically start and stop Amazon EC2 instances based on tags using an AWS Lambda function written in Python with the Boto3 SDK.
@@ -166,6 +167,7 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
         
 **************************************************************
 # ✅ Assignment 2: Automated S3 Bucket Cleanup Using AWS Lambda and Boto3
+
 # Objective
     Automate the deletion of files older than 30 days from an S3 bucket using AWS Lambda and Boto3.
 
@@ -297,7 +299,7 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
     Boto3 usage
     IAM role configuration
 
-# ✅Automated S3 bucket cleanup using AWS Lambda and Boto3 to delete objects older than 30 days, improving storage management       and cost efficiency.
+    Automated S3 bucket cleanup using AWS Lambda and Boto3 to delete objects older than 30 days, improving storage management      and cost efficiency.
 
 # Conclusion
     This solution helps:
@@ -306,7 +308,7 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
     Automate routine maintenance tasks
 
 **************************************************************
-# Assignment 5:
+# ✅ Assignment 5:
 
 ## Auto-Tagging EC2 Instances on Launch using AWS Lambda & Boto3
     Project Overview
@@ -486,9 +488,10 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
     Email notifications
 
 # Conclusion
-    This project demonstrates a real-world DevOps automation pattern used in enterprises to ensure all resources are properly tagged for cost tracking, compliance,       and operational efficiency.
+    This project demonstrates a real-world DevOps automation pattern used in enterprises to ensure all resources are properly      tagged for cost tracking, compliance,       and operational efficiency.
 ************************************************************************************
 # ✅ Assignment 14:
+
 ## EC2 Instance State Monitoring using AWS Lambda, SNS & EventBridge
     Project Overview
     This project implements an event-driven monitoring system for EC2 instances.
@@ -977,7 +980,7 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
 # Final Flow
     Snapshot → EC2 Instance
 
-# What,I Learned
+# What,I Learnt
     Snapshot vs AMI difference
     Lambda automation
     EC2 provisioning via Boto3
