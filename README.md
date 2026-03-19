@@ -163,6 +163,142 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
         3-EC2 tagging strategies
         4-IAM role configuration
         5-Monitoring using CloudWatch
+        
+**************************************************************
+# Assignment 2: Automated S3 Bucket Cleanup Using AWS Lambda and Boto3
+# Objective
+    Automate the deletion of files older than 30 days from an S3 bucket using AWS Lambda and Boto3.
+
+# Overview Of Task
+    This solution automatically:
+        1-Scans an S3 bucket
+        2-Identifies files older than 30 days
+        3-Deletes old files
+        4-Logs actions for tracking
+
+# Architecture
+                Amazon S3 Bucket
+                        ↓
+                AWS Lambda Function
+                        ↓
+                Boto3 (Python SDK)
+                        ↓
+                Deletes files older than 30 days
+
+# Prerequisites
+    AWS account
+    S3 bucket created    
+    Files uploaded
+    IAM permissions
+
+    Step 1: Create S3 Bucket
+        Go to S3 → Create bucket
+
+        Bucket name    :    santosh-cleanup-bucket
+        Upload test files:
+            Old files (>30 days)
+        Recent files
+
+    Step 2: Create IAM Role for Lambda
+        Go to IAM → Roles → Create role
+        Select: Lambda
+            Attach policy:
+            AmazonS3FullAccess
+    
+
+    Step 3: Create Lambda Function
+        Go to Lambda → Create function
+        Configure:
+            Setting	        Value
+            Name        	S3-Cleanup
+            Runtime        	Python 3.x
+            Role	        IAM role created
+            
+    Step 4: Add Lambda Code
+                
+                import boto3
+                from datetime import datetime, timezone, timedelta
+                
+                s3 = boto3.client('s3')
+                
+                BUCKET_NAME = 'santosh-cleanup-bucket'
+                DAYS = 30
+                
+                def lambda_handler(event, context):
+                
+                    print("Starting S3 cleanup...")
+                
+                    cutoff_date = datetime.now(timezone.utc) - timedelta(days=DAYS)
+                
+                    response = s3.list_objects_v2(Bucket=BUCKET_NAME)
+                
+                    if 'Contents' not in response:
+                        print("Bucket is empty")
+                        return
+                
+                    for obj in response['Contents']:
+                        file_name = obj['Key']
+                        last_modified = obj['LastModified']
+                
+                        if last_modified < cutoff_date:
+                            print(f"Deleting: {file_name}")
+                
+                            s3.delete_object(
+                                Bucket=BUCKET_NAME,
+                                Key=file_name
+                            )
+                        else:
+                            print(f"Keeping: {file_name}")
+                            
+    Step 5: Manual Testing
+        Go to Lambda → Test
+        Use test event:
+        Run function
+
+    Step 6: Verify Results
+        Go to S3 bucket
+
+        Confirm:
+        Old files → deleted
+        New files → remain
+
+
+# Recommended IAM Policy
+
+            {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": ["s3:ListBucket"],
+                  "Resource": "arn:aws:s3:::santosh-cleanup-bucket"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": ["s3:GetObject", "s3:DeleteObject"],
+                  "Resource": "arn:aws:s3:::santosh-cleanup-bucket/*"
+                }
+              ]
+            }
+
+# IT Can Be Run Automate Cleanup Daily 
+
+# Learning Outcomes
+    AWS Lambda automation
+    S3 object management
+    Boto3 usage
+    IAM role configuration
+
+# Automated S3 bucket cleanup using AWS Lambda and Boto3 to delete objects older than 30 days, improving storage management and cost efficiency.
+
+# Conclusion
+    This solution helps:
+    Maintain clean storage
+    Reduce unnecessary costs
+    Automate routine maintenance tasks
+
+
+
 
 **************************************************************
 # Assignment 5:
