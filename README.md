@@ -5,7 +5,7 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
 
 # ✅ Assignment 1:
 
-## AWS Lambda Automation for EC2 Instance Start/Stop
+    AWS Lambda Automation for EC2 Instance Start/Stop
     Project Overview
     This project demonstrates how to automatically start and stop Amazon EC2 instances based on tags using an AWS Lambda function written in Python with the Boto3 SDK.
     The automation helps organizations optimize cloud costs and simplify infrastructure management by automatically managing EC2 instance states based on predefined tags.
@@ -166,8 +166,9 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
         5-Monitoring using CloudWatch
         
 **************************************************************
-# ✅ Assignment 2: Automated S3 Bucket Cleanup Using AWS Lambda and Boto3
+# ✅ Assignment 2: 
 
+    Automated S3 Bucket Cleanup Using AWS Lambda and Boto3
 # Objective
     Automate the deletion of files older than 30 days from an S3 bucket using AWS Lambda and Boto3.
 
@@ -310,7 +311,7 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
 **************************************************************
 # ✅ Assignment 5:
 
-## Auto-Tagging EC2 Instances on Launch using AWS Lambda & Boto3
+    ## Auto-Tagging EC2 Instances on Launch using AWS Lambda & Boto3
     Project Overview
     This project demonstrates how to automatically tag EC2 instances at launch using a serverless approach.
     Whenever a new EC2 instance is launched and enters the running state, a Lambda function is triggered to:
@@ -492,7 +493,7 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
 ************************************************************************************
 # ✅ Assignment 14:
 
-## EC2 Instance State Monitoring using AWS Lambda, SNS & EventBridge
+    ## EC2 Instance State Monitoring using AWS Lambda, SNS & EventBridge
     Project Overview
     This project implements an event-driven monitoring system for EC2 instances.
     Whenever an EC2 instance is started or stopped, a Lambda function is triggered automatically and sends a notification via SNS.
@@ -694,8 +695,9 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
     This project demonstrates a real-world monitoring solution widely used in DevOps environments to track infrastructure changes and respond proactively to system events.
 *******************************************************************************************************************************************************
 
-# ✅ Assignment 16: Automated SNS Alerts for EC2 Disk Space Utilization
-
+# ✅ Assignment 16: 
+    
+    Automated SNS Alerts for EC2 Disk Space Utilization
 # Objective
     Build an automated monitoring system that:
     Checks EC2 disk usage
@@ -857,14 +859,15 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
     Automate alerting and response
 
 ***********************************************************************************************************************************************
-# ✅ Assignment 17: Restore EC2 Instance from Snapshot
+# ✅ Assignment 17:
 
+    Restore EC2 Instance from Snapshot
     This is a classic disaster recovery automation used in DevOps.
-    use:
-        Amazon EC2
-        AWS Lambda
-        Amazon EventBridge
-        Boto3
+        use:
+            Amazon EC2
+            AWS Lambda
+            Amazon EventBridge
+            Boto3
 
 # Objective
     Automatically:
