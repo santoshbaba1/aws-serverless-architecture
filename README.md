@@ -190,6 +190,7 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
     S3 bucket created    
     Files uploaded
     IAM permissions
+<img width="1320" height="631" alt="as2-s3 bucket policy" src="https://github.com/user-attachments/assets/d79d8dde-e2dc-4f73-b4a0-f9f308a4081d" />
 
     Step 1: Create S3 Bucket
         Go to S3 → Create bucket
@@ -198,6 +199,7 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
         Upload test files:
             Old files (>30 days)
         Recent files
+<img width="1320" height="631" alt="as2-s3 bucket policy" src="https://github.com/user-attachments/assets/77084a52-3a29-41d6-92a2-46ccdcbd17b9" />
 
     Step 2: Create IAM Role for Lambda
         Go to IAM → Roles → Create role
@@ -213,7 +215,8 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
             Name        	S3-Cleanup
             Runtime        	Python 3.x
             Role	        IAM role created
-            
+<img width="1306" height="617" alt="lambda role" src="https://github.com/user-attachments/assets/6e1b4ae2-c2de-4710-ad32-a69339f3077c" />
+ 
     Step 4: Add Lambda Code
                 
                 import boto3
@@ -254,6 +257,7 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
         Go to Lambda → Test
         Use test event:
         Run function
+<img width="1304" height="659" alt="as2-s3 bucket del completed" src="https://github.com/user-attachments/assets/9c837780-4212-4659-bb95-1a76afcbe905" />
 
     Step 6: Verify Results
         Go to S3 bucket
@@ -261,6 +265,8 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
         Confirm:
         Old files → deleted
         New files → remain
+
+<img width="1317" height="669" alt="as2-other files" src="https://github.com/user-attachments/assets/a5c3fbae-a63c-4542-8644-e80faf794021" />
 
 
 # Recommended IAM Policy
@@ -282,6 +288,8 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
             }
 
 # IT Can Be Run Automate Cleanup Daily 
+<img width="1313" height="674" alt="as2-s3 log" src="https://github.com/user-attachments/assets/e41bc88d-8539-4ff3-9372-f0202fea71dc" />
+<img width="1304" height="659" alt="as2-s3 bucket del completed" src="https://github.com/user-attachments/assets/0375d38c-93cd-4ca9-a7aa-04b799588558" />
 
 # Learning Outcomes
     AWS Lambda automation
@@ -296,9 +304,6 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
     Maintain clean storage
     Reduce unnecessary costs
     Automate routine maintenance tasks
-
-
-
 
 **************************************************************
 # Assignment 5:
