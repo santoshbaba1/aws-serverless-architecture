@@ -993,6 +993,6 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
 
 # Author
 
-Santosh Kumar Sharma (12394)-Batch-15
+Santosh Kumar Sharma (12394), Batch-15
 
 Cloud / DevOps Automation Project
