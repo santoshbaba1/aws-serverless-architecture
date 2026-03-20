@@ -990,9 +990,164 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
     Disaster recovery design
 
 ***********************************************************************************************************************************************
+# ✅ Assignment 19: Load Balancer Health Checker using AWS Lambda
 
-# Author
+# Overview
+
+    This project implements a serverless monitoring solution using AWS services to automatically check the health of instances registered behind an Elastic Load         Balancer (ELB).
+    If any instance becomes unhealthy, the system sends an alert notification using Amazon SNS.
+
+# Objective
+
+        1-Monitor the health of instances behind an ELB
+        2-Detect unhealthy instances automatically
+        3-Send notifications via SNS
+        4-Run checks every 10 minutes using scheduled events
+
+# Architecture
+           
+            CloudWatch (EventBridge Rule - 10 min)
+                        ↓
+                    AWS Lambda
+                        ↓
+               ELB Target Group Health Check
+                        ↓
+                 If Unhealthy Found
+                        ↓
+                    Amazon SNS
+                        ↓
+                    Email Alert
+
+# Services Used
+        
+        AWS Lambda
+        Elastic Load Balancing (ALB)
+        Amazon SNS
+        Amazon CloudWatch (EventBridge)
+        IAM (Roles & Policies)
+        Boto3 (Python SDK)
+
+# Prerequisites
+        AWS Account
+        Existing Application Load Balancer (ALB)
+        Target Group with registered EC2 instances
+        Verified email for SNS subscription
+
+# Setup Instructions
+    
+    Step 1: Create SNS Topic
+            Go to SNS Dashboard
+            Create a topic: Standard
+            Name: elb-health-alerts
+            Create a subscription:
+            Protocol: Email
+            Endpoint: Your email address
+            Confirm subscription via email
+
+    Step 2: Create IAM Role for Lambda
+            Attach the following policies:
+                ElasticLoadBalancingReadOnly
+                AmazonSNSFullAccess
+            Role Name:
+                Lambda-ELB-Health-Checker-Role
+                
+    Step 3: Create Lambda Function
+            Name            : elb-health-checker
+            Runtime         : Python 3.x
+            Execution Role  : Lambda-ELB-Health-Checker-Role
+
+    Step 4: Lambda Function Code
+                    
+                    import boto3
+                    
+                    def lambda_handler(event, context):
+                        elbv2 = boto3.client('elbv2')
+                        sns = boto3.client('sns')
+                        
+                        TARGET_GROUP_ARN = "arn:aws:elasticloadbalancing:ap-south-1:251478238405:targetgroup/elb-sns-tgt/3470af8b7d587097"
+                        SNS_TOPIC_ARN = "arn:aws:sns:ap-south-1:251478238405:elb-health-alerts"
+                        
+                        response = elbv2.describe_target_health(
+                            TargetGroupArn=TARGET_GROUP_ARN
+                        )
+                        
+                        unhealthy_instances = []
+                        
+                        for target in response['TargetHealthDescriptions']:
+                            instance_id = target['Target']['Id']
+                            state = target['TargetHealth']['State']
+                            
+                            if state != 'healthy':
+                                unhealthy_instances.append({
+                                    "InstanceId": instance_id,
+                                    "State": state
+                                })
+                        
+                        if unhealthy_instances:
+                            message = "Unhealthy Instances Detected:\n"
+                            
+                            for inst in unhealthy_instances:
+                                message += f"Instance: {inst['InstanceId']} | State: {inst['State']}\n"
+                            
+                            sns.publish(
+                                TopicArn=SNS_TOPIC_ARN,
+                                Subject="ALB Health Alert",
+                                Message=message
+                            )
+                            
+                            print(message)
+                        else:
+                            print("All instances are healthy")
+                        
+                        return {
+                            'statusCode': 200,
+                            'body': unhealthy_instances
+                        }
+    Step 5: Configure Environment Variables (Optional Best Practice)
+            Instead of hardcoding values:
+            TARGET_GROUP_ARN     : arn:aws:elasticloadbalancing:ap-south-1:251478238405:targetgroup/elb-sns-tgt/3470af8b7d587097
+            SNS_TOPIC_ARN        : arn:aws:sns:ap-south-1:251478238405:elb-health-alerts
+
+    Step 6: Test the Lambda Function
+            Deploy the function
+            Create a test event ({})
+            Run the test
+            Check logs in CloudWatch
+
+    Step 7: Setup Scheduled Trigger
+            Go to CloudWatch → EventBridge Rules
+
+            Create rule:
+                Type          : Schedule
+                Expression    : rate(10 minutes)
+                Target        : Lambda function (elb-health-checker)
+
+# Output
+    ✔ Healthy State
+    All instances are healthy
+    ❌ Unhealthy State
+    Unhealthy Instances Detected:
+    Instance: i-1234567890 | State: unhealthy
+
+    📩 Email notification will also be sent
+
+# Security Considerations
+    Follow least privilege principle for IAM roles
+    Avoid using full access policies in production
+    Store ARNs in environment variables or AWS Secrets Manager
+
+# Key Learnings
+    1-Serverless monitoring using Lambda
+    2-AWS ELB health check automation
+    3-Event-driven architecture using CloudWatch
+    4-Alerting via SNS
+    5-Boto3 integration with AWS services
+
+# Conclusion
+
+    This project demonstrates a real-world DevOps monitoring solution using AWS services. It ensures high availability by proactively detecting unhealthy instances      and notifying stakeholders immediately.
+
+👨‍💻 Author
 
 Santosh Kumar Sharma (12394), Batch-15
-
-Cloud / DevOps Automation Project
+DevOps & Cloud Enthusiast
