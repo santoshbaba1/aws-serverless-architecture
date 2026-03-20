@@ -1103,6 +1103,7 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
                             'statusCode': 200,
                             'body': unhealthy_instances
                         }
+    
     Step 5: Configure Environment Variables (Optional Best Practice)
             Instead of hardcoding values:
             TARGET_GROUP_ARN     : arn:aws:elasticloadbalancing:ap-south-1:251478238405:targetgroup/elb-sns-tgt/3470af8b7d587097
