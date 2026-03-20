@@ -3,8 +3,9 @@
 AWS Account
 IAM permissions to create Lambda, SNS, EC2, EventBridge
 
-# Assignment 1:
-## AWS Lambda Automation for EC2 Instance Start/Stop
+# ✅ Assignment 1:
+
+    AWS Lambda Automation for EC2 Instance Start/Stop
     Project Overview
     This project demonstrates how to automatically start and stop Amazon EC2 instances based on tags using an AWS Lambda function written in Python with the Boto3 SDK.
     The automation helps organizations optimize cloud costs and simplify infrastructure management by automatically managing EC2 instance states based on predefined tags.
@@ -163,11 +164,154 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
         3-EC2 tagging strategies
         4-IAM role configuration
         5-Monitoring using CloudWatch
+        
+**************************************************************
+# ✅ Assignment 2: 
+
+    Automated S3 Bucket Cleanup Using AWS Lambda and Boto3
+# Objective
+    Automate the deletion of files older than 30 days from an S3 bucket using AWS Lambda and Boto3.
+
+# Overview Of Task
+    This solution automatically:
+        1-Scans an S3 bucket
+        2-Identifies files older than 30 days
+        3-Deletes old files
+        4-Logs actions for tracking
+
+# Architecture
+                Amazon S3 Bucket
+                        ↓
+                AWS Lambda Function
+                        ↓
+                Boto3 (Python SDK)
+                        ↓
+                Deletes files older than 30 days
+
+# Prerequisites
+    AWS account
+    S3 bucket created    
+    Files uploaded
+    IAM permissions
+<img width="1320" height="631" alt="as2-s3 bucket policy" src="https://github.com/user-attachments/assets/d79d8dde-e2dc-4f73-b4a0-f9f308a4081d" />
+
+    Step 1: Create S3 Bucket
+        Go to S3 → Create bucket
+
+        Bucket name    :    santosh-cleanup-bucket
+        Upload test files:
+            Old files (>30 days)
+        Recent files
+<img width="1320" height="631" alt="as2-s3 bucket policy" src="https://github.com/user-attachments/assets/77084a52-3a29-41d6-92a2-46ccdcbd17b9" />
+
+    Step 2: Create IAM Role for Lambda
+        Go to IAM → Roles → Create role
+        Select: Lambda
+            Attach policy:
+            AmazonS3FullAccess
+    
+
+    Step 3: Create Lambda Function
+        Go to Lambda → Create function
+        Configure:
+            Setting	        Value
+            Name        	S3-Cleanup
+            Runtime        	Python 3.x
+            Role	        IAM role created
+<img width="1306" height="617" alt="lambda role" src="https://github.com/user-attachments/assets/6e1b4ae2-c2de-4710-ad32-a69339f3077c" />
+ 
+    Step 4: Add Lambda Code
+                
+                import boto3
+                from datetime import datetime, timezone, timedelta
+                
+                s3 = boto3.client('s3')
+                
+                BUCKET_NAME = 'santosh-cleanup-bucket'
+                DAYS = 30
+                
+                def lambda_handler(event, context):
+                
+                    print("Starting S3 cleanup...")
+                
+                    cutoff_date = datetime.now(timezone.utc) - timedelta(days=DAYS)
+                
+                    response = s3.list_objects_v2(Bucket=BUCKET_NAME)
+                
+                    if 'Contents' not in response:
+                        print("Bucket is empty")
+                        return
+                
+                    for obj in response['Contents']:
+                        file_name = obj['Key']
+                        last_modified = obj['LastModified']
+                
+                        if last_modified < cutoff_date:
+                            print(f"Deleting: {file_name}")
+                
+                            s3.delete_object(
+                                Bucket=BUCKET_NAME,
+                                Key=file_name
+                            )
+                        else:
+                            print(f"Keeping: {file_name}")
+                            
+    Step 5: Manual Testing
+        Go to Lambda → Test
+        Use test event:
+        Run function
+<img width="1304" height="659" alt="as2-s3 bucket del completed" src="https://github.com/user-attachments/assets/9c837780-4212-4659-bb95-1a76afcbe905" />
+
+    Step 6: Verify Results
+        Go to S3 bucket
+
+        Confirm:
+        Old files → deleted
+        New files → remain
+
+<img width="1317" height="669" alt="as2-other files" src="https://github.com/user-attachments/assets/a5c3fbae-a63c-4542-8644-e80faf794021" />
+
+
+# Recommended IAM Policy
+
+            {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": ["s3:ListBucket"],
+                  "Resource": "arn:aws:s3:::santosh-cleanup-bucket"
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": ["s3:GetObject", "s3:DeleteObject"],
+                  "Resource": "arn:aws:s3:::santosh-cleanup-bucket/*"
+                }
+              ]
+            }
+
+# IT Can Be Run Automate Cleanup Daily 
+<img width="1313" height="674" alt="as2-s3 log" src="https://github.com/user-attachments/assets/e41bc88d-8539-4ff3-9372-f0202fea71dc" />
+<img width="1304" height="659" alt="as2-s3 bucket del completed" src="https://github.com/user-attachments/assets/0375d38c-93cd-4ca9-a7aa-04b799588558" />
+
+# Learning Outcomes
+    AWS Lambda automation
+    S3 object management
+    Boto3 usage
+    IAM role configuration
+
+    Automated S3 bucket cleanup using AWS Lambda and Boto3 to delete objects older than 30 days, improving storage management      and cost efficiency.
+
+# Conclusion
+    This solution helps:
+    Maintain clean storage
+    Reduce unnecessary costs
+    Automate routine maintenance tasks
 
 **************************************************************
-# Assignment 5:
+# ✅ Assignment 5:
 
-## Auto-Tagging EC2 Instances on Launch using AWS Lambda & Boto3
+    ## Auto-Tagging EC2 Instances on Launch using AWS Lambda & Boto3
     Project Overview
     This project demonstrates how to automatically tag EC2 instances at launch using a serverless approach.
     Whenever a new EC2 instance is launched and enters the running state, a Lambda function is triggered to:
@@ -345,10 +489,11 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
     Email notifications
 
 # Conclusion
-    This project demonstrates a real-world DevOps automation pattern used in enterprises to ensure all resources are properly tagged for cost tracking, compliance,       and operational efficiency.
+    This project demonstrates a real-world DevOps automation pattern used in enterprises to ensure all resources are properly      tagged for cost tracking, compliance,       and operational efficiency.
 ************************************************************************************
-# Assignment 14:
-## EC2 Instance State Monitoring using AWS Lambda, SNS & EventBridge
+# ✅ Assignment 14:
+
+    ## EC2 Instance State Monitoring using AWS Lambda, SNS & EventBridge
     Project Overview
     This project implements an event-driven monitoring system for EC2 instances.
     Whenever an EC2 instance is started or stopped, a Lambda function is triggered automatically and sends a notification via SNS.
@@ -550,8 +695,9 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
     This project demonstrates a real-world monitoring solution widely used in DevOps environments to track infrastructure changes and respond proactively to system events.
 *******************************************************************************************************************************************************
 
-# Assignment 16: Automated SNS Alerts for EC2 Disk Space Utilization
-
+# ✅ Assignment 16: 
+    
+    Automated SNS Alerts for EC2 Disk Space Utilization
 # Objective
     Build an automated monitoring system that:
     Checks EC2 disk usage
@@ -713,14 +859,15 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
     Automate alerting and response
 
 ***********************************************************************************************************************************************
-# Assignment 17: Restore EC2 Instance from Snapshot
+# ✅ Assignment 17:
 
+    Restore EC2 Instance from Snapshot
     This is a classic disaster recovery automation used in DevOps.
-    use:
-        Amazon EC2
-        AWS Lambda
-        Amazon EventBridge
-        Boto3
+        use:
+            Amazon EC2
+            AWS Lambda
+            Amazon EventBridge
+            Boto3
 
 # Objective
     Automatically:
@@ -836,7 +983,7 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
 # Final Flow
     Snapshot → EC2 Instance
 
-# What,I Learned
+# What,I Learnt
     Snapshot vs AMI difference
     Lambda automation
     EC2 provisioning via Boto3
@@ -846,6 +993,6 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
 
 # Author
 
-Santosh Kumar Sharma (12394)-Batch-15
+Santosh Kumar Sharma (12394), Batch-15
 
 Cloud / DevOps Automation Project
