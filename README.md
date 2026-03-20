@@ -1,14 +1,11 @@
-⚙️ Prerequisites
-
-AWS Account
-IAM permissions to create Lambda, SNS, EC2, EventBridge
+# Assignment On Serverless Architecture and Cloud Automation
 
 # ✅ Assignment 1:
 
     AWS Lambda Automation for EC2 Instance Start/Stop
-    Project Overview
-    This project demonstrates how to automatically start and stop Amazon EC2 instances based on tags using an AWS Lambda function written in Python with the Boto3 SDK.
-    The automation helps organizations optimize cloud costs and simplify infrastructure management by automatically managing EC2 instance states based on predefined tags.
+# Project Overview
+        This project demonstrates how to automatically start and stop Amazon EC2 instances based on tags using an AWS Lambda function written in Python with the             Boto3 SDK.
+        The automation helps organizations optimize cloud costs and simplify infrastructure management by automatically managing EC2 instance states based on                predefined tags.
 
 # Objective
     Create a serverless automation system that:
