@@ -1041,13 +1041,14 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
             Name: elb-health-alerts
             Create a subscription:
             Protocol: Email
-            Endpoint: Your email address
+            Endpoint: santoshxxxxx@gmail.com
             Confirm subscription via email
 
     Step 2: Create IAM Role for Lambda
             Attach the following policies:
                 ElasticLoadBalancingReadOnly
                 AmazonSNSFullAccess
+                CloudWatchFullAccess
             Role Name:
                 Lambda-ELB-Health-Checker-Role
                 
@@ -1104,14 +1105,14 @@ IAM permissions to create Lambda, SNS, EC2, EventBridge
                             'body': unhealthy_instances
                         }
     
-    Step 5: Configure Environment Variables (Optional Best Practice)
+    Step 5: Configure Environment Variables
             Instead of hardcoding values:
             TARGET_GROUP_ARN     : arn:aws:elasticloadbalancing:ap-south-1:251478238405:targetgroup/elb-sns-tgt/3470af8b7d587097
             SNS_TOPIC_ARN        : arn:aws:sns:ap-south-1:251478238405:elb-health-alerts
 
     Step 6: Test the Lambda Function
             Deploy the function
-            Create a test event ({})
+            Create a test event
             Run the test
             Check logs in CloudWatch
 
