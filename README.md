@@ -1154,7 +1154,6 @@
 <img width="1304" height="671" alt="as19-status" src="https://github.com/user-attachments/assets/5491ec91-e66e-4f6b-8a91-a0402b21b6c6" />
 
 # Conclusion
-<img width="1304" height="671" alt="as19-status" src="https://github.com/user-attachments/assets/58f81975-501b-464d-abb7-5fd0bd9487b7" />
 
     This project demonstrates a real-world DevOps monitoring solution using AWS services. It ensures high availability by proactively detecting unhealthy instances      and notifying stakeholders immediately.
 
