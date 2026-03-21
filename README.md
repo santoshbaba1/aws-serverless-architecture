@@ -1029,6 +1029,7 @@
         Existing Application Load Balancer (ALB)
         Target Group with registered EC2 instances
         Verified email for SNS subscription
+<img width="1318" height="672" alt="as19-elb active" src="https://github.com/user-attachments/assets/0efe529d-e193-4485-b9a4-6041202a3228" />
 
 # Setup Instructions
     
@@ -1040,6 +1041,8 @@
             Protocol: Email
             Endpoint: santoshxxxxx@gmail.com
             Confirm subscription via email
+<img width="1365" height="668" alt="as19-subcription request" src="https://github.com/user-attachments/assets/054be9b7-1297-4c0d-b5ab-d19a8bb24fb1" />
+<img width="1362" height="367" alt="as19-subcription confirm" src="https://github.com/user-attachments/assets/0ee4d253-63a9-4b3b-abe7-7f2b3969c72e" />
 
     Step 2: Create IAM Role for Lambda
             Attach the following policies:
@@ -1048,7 +1051,8 @@
                 CloudWatchFullAccess
             Role Name:
                 Lambda-ELB-Health-Checker-Role
-                
+<img width="1318" height="665" alt="as19-iam role" src="https://github.com/user-attachments/assets/d65177e2-4381-47bb-b090-c172418c3ba6" />
+      
     Step 3: Create Lambda Function
             Name            : elb-health-checker
             Runtime         : Python 3.x
@@ -1120,6 +1124,8 @@
                 Type          : Schedule
                 Expression    : rate(10 minutes)
                 Target        : Lambda function (elb-health-checker)
+<img width="1317" height="669" alt="as19-schdule setup" src="https://github.com/user-attachments/assets/0a608202-d099-498a-a90f-44da6e5fdcc3" />
+<img width="1317" height="669" alt="as19-schdule setup" src="https://github.com/user-attachments/assets/9883922d-ae74-4cfb-b4ea-8ed476125774" />
 
 # Output
     ✔ Healthy State
@@ -1127,8 +1133,12 @@
     ❌ Unhealthy State
     Unhealthy Instances Detected:
     Instance: i-1234567890 | State: unhealthy
+<img width="1317" height="673" alt="as19 hc-status ok on tg" src="https://github.com/user-attachments/assets/70fefce7-7f77-4887-a818-324b9e6b4b13" />
+<img width="1310" height="662" alt="as19-unhealthy" src="https://github.com/user-attachments/assets/b60c59f9-a8c9-43e5-a23f-fb00786ef599" />
 
     📩 Email notification will also be sent
+<img width="1351" height="721" alt="as19-alb-health email" src="https://github.com/user-attachments/assets/5b984ee3-81b6-44ec-9a25-0deace35a16a" />
+<img width="1361" height="669" alt="as19-unh-email" src="https://github.com/user-attachments/assets/522ba676-9676-45d2-b167-fac1ff5cdcda" />
 
 # Security Considerations
     Follow least privilege principle for IAM roles
@@ -1141,8 +1151,10 @@
     3-Event-driven architecture using CloudWatch
     4-Alerting via SNS
     5-Boto3 integration with AWS services
+<img width="1304" height="671" alt="as19-status" src="https://github.com/user-attachments/assets/5491ec91-e66e-4f6b-8a91-a0402b21b6c6" />
 
 # Conclusion
+<img width="1304" height="671" alt="as19-status" src="https://github.com/user-attachments/assets/58f81975-501b-464d-abb7-5fd0bd9487b7" />
 
     This project demonstrates a real-world DevOps monitoring solution using AWS services. It ensures high availability by proactively detecting unhealthy instances      and notifying stakeholders immediately.
 
