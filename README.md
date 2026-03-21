@@ -727,7 +727,8 @@
         Attach policy:
             CloudWatchAgentServerPolicy
             Configure Agent
-    
+<img width="1316" height="675" alt="as16-cw-log2" src="https://github.com/user-attachments/assets/5a4b2a36-ae25-41e2-b1c3-f2eecdec5966" />
+
             sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
 <img width="1317" height="674" alt="as-16 cwagent" src="https://github.com/user-attachments/assets/f462399d-445d-43e1-b27d-3b4f735b84ca" />   
         Choose:
@@ -779,7 +780,7 @@
                 cloudwatch = boto3.client('cloudwatch')
                 sns = boto3.client('sns')
                 
-                SNS_TOPIC_ARN = 'YOUR_SNS_TOPIC_ARN'
+                SNS_TOPIC_ARN = 'arn:aws:sns:ap-south-1:251478238405:ec2-state-alerts'
                 THRESHOLD = 85
                 
                 def lambda_handler(event, context):
