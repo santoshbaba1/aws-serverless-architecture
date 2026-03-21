@@ -727,9 +727,9 @@
         Attach policy:
             CloudWatchAgentServerPolicy
             Configure Agent
-            
+    
             sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
-
+<img width="1317" height="674" alt="as-16 cwagent" src="https://github.com/user-attachments/assets/f462399d-445d-43e1-b27d-3b4f735b84ca" />   
         Choose:
             Metrics collection → YES
             Disk metrics → YES
@@ -753,18 +753,23 @@
         Protocol: Email
         Endpoint: santoshxxxx@gmail.com
         Confirm subscription via email
+<img width="1365" height="669" alt="as16-email-alert-2" src="https://github.com/user-attachments/assets/f5704602-e31b-4570-b25e-91cfbe8c7b0c" />
+<img width="1312" height="620" alt="as16-subctiprtion" src="https://github.com/user-attachments/assets/0c8e7a7f-3eae-4084-a054-0cd2dc77fe47" />
 
     Step 4: Create IAM Role for Lambda
         Attach these policies:
         AmazonEC2ReadOnlyAccess
         CloudWatchReadOnlyAccess
         AmazonSNSFullAccess
+<img width="1310" height="664" alt="as16-iam-disk role" src="https://github.com/user-attachments/assets/710da6e8-0112-4916-ad4d-47fa9215c841" />
 
     Step 5: Create Lambda Function
         Configuration
         Name        : EC2-Disk-Monitor
         Runtime     : Python 3.x
         Role        : IAM role created above
+<img width="1315" height="672" alt="as16-inst-role ec2" src="https://github.com/user-attachments/assets/24626dad-9099-43db-af53-621f3718514c" />
+<img width="1321" height="676" alt="as16-lamda-fun" src="https://github.com/user-attachments/assets/8a680e5a-a5ae-4ac1-b17f-d0b250540203" />
 
 # Lambda Code
 
@@ -821,6 +826,7 @@
     Step 7: Testing
         Manual Test
         Run Lambda with:
+<img width="1362" height="673" alt="as16-email-alert" src="https://github.com/user-attachments/assets/79b792ab-f326-4f10-8468-dd31f68e1785" />
 
         Real Test (Simulate High Disk Usage)
         ## fallocate -l 6G testfile
@@ -830,6 +836,8 @@
     Email alert:
     # Subject: EC2 Disk Alert
     Message: Disk usage is 90%
+<img width="1364" height="306" alt="as16-subctiprtion email confirm" src="https://github.com/user-attachments/assets/23a07a49-4e48-442a-ad5f-944d8a2cb751" />
+<img width="1365" height="675" alt="as16-subctiprtion email" src="https://github.com/user-attachments/assets/331c94d2-a1b5-4536-be09-0ba333ff12f5" />
 
 # Best Practices
     Avoid hardcoding instance ID (use dynamic discovery)
