@@ -451,7 +451,7 @@
         Use this test event:
             {
              "detail": {
-               "instance-id": "i-1234567890",
+               "instance-id": "i-09da0c42dd0c4e222",
                "state": "running"
              }
             }
