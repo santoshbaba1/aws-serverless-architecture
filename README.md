@@ -190,8 +190,6 @@
     S3 bucket created    
     Files uploaded
     IAM permissions
-<img width="1320" height="631" alt="as2-s3 bucket policy" src="https://github.com/user-attachments/assets/d79d8dde-e2dc-4f73-b4a0-f9f308a4081d" />
-
     Step 1: Create S3 Bucket
         Go to S3 → Create bucket
 
